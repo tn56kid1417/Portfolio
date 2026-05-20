@@ -1,0 +1,610 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>S M Kishore — UI/UX Designer & Frontend Developer</title>
+  <meta name="description" content="Portfolio of S M Kishore — UI/UX Designer crafting delightful digital experiences." />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --accent:#6C63FF;--accent2:#00D4AA;--accent3:#FF6B9D;
+      --bg:#0B0F1A;--surface:#131829;--surface2:#1A2035;
+      --text:#E8ECF4;--muted:#7B8BA8;
+      --glass:rgba(19,24,41,0.65);--glass-border:rgba(108,99,255,0.12);
+      --radius:16px;--max-w:1140px;
+      --shadow:0 8px 32px rgba(0,0,0,0.3);
+    }
+    html{scroll-behavior:smooth}
+    body{
+      font-family:'Outfit',system-ui,sans-serif;background:var(--bg);color:var(--text);
+      line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+      cursor:none;
+    }
+
+    /* Custom cursor */
+    .cursor{position:fixed;width:20px;height:20px;border:2px solid var(--accent);border-radius:50%;pointer-events:none;z-index:9999;transition:width .2s,height .2s,border-color .2s,transform .2s;transform:translate(-50%,-50%)}
+    .cursor-dot{position:fixed;width:6px;height:6px;background:var(--accent2);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:opacity .2s}
+    .cursor.hover{width:50px;height:50px;border-color:var(--accent2);background:rgba(0,212,170,.08)}
+
+    /* Live canvas background */
+    #particles-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+
+    /* Cursor glow */
+    .cursor-glow{position:fixed;width:300px;height:300px;border-radius:50%;pointer-events:none;z-index:0;background:radial-gradient(circle,rgba(108,99,255,.08) 0%,transparent 70%);transform:translate(-50%,-50%);transition:opacity .3s}
+
+    .wrapper{position:relative;z-index:1}
+    .container{max-width:var(--max-w);margin:0 auto;padding:0 28px}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(11,15,26,0.7);border-bottom:1px solid var(--glass-border);transition:box-shadow .3s}
+    nav.scrolled{box-shadow:0 4px 30px rgba(0,0,0,.4)}
+    .nav-inner{max-width:var(--max-w);margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:68px}
+    .nav-brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--text)}
+    .nav-logo{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;color:#fff;box-shadow:0 0 20px rgba(108,99,255,.3);transition:transform .3s,box-shadow .3s}
+    .nav-logo:hover{transform:rotate(10deg) scale(1.1);box-shadow:0 0 30px rgba(108,99,255,.5)}
+    .nav-name{font-weight:700;font-size:1.05rem}
+    .nav-links{display:flex;gap:6px;align-items:center}
+    .nav-links a{color:var(--muted);text-decoration:none;font-weight:500;padding:8px 16px;border-radius:10px;transition:all .25s;font-size:.95rem;position:relative}
+    .nav-links a:hover{color:var(--text);background:rgba(108,99,255,.1)}
+    .nav-links a::after{content:'';position:absolute;bottom:2px;left:50%;width:0;height:2px;background:var(--accent);transition:all .3s;transform:translateX(-50%);border-radius:2px}
+    .nav-links a:hover::after{width:60%}
+    .nav-links .nav-cta{background:linear-gradient(135deg,var(--accent),#8B7FFF);color:#fff;padding:8px 20px}
+    .nav-links .nav-cta::after{display:none}
+    .nav-links .nav-cta:hover{box-shadow:0 4px 20px rgba(108,99,255,.4);transform:translateY(-1px)}
+    .hamburger{display:none;background:none;border:none;color:var(--text);font-size:1.5rem;cursor:pointer}
+
+    /* HERO */
+    .hero{min-height:100vh;display:flex;align-items:center;padding-top:68px}
+    .hero-grid{display:grid;grid-template-columns:1fr 400px;gap:48px;align-items:center}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:30px;background:rgba(108,99,255,.12);border:1px solid rgba(108,99,255,.2);color:var(--accent);font-size:.85rem;font-weight:500;margin-bottom:20px;animation:slideDown .8s ease-out}
+    .hero-badge .dot{width:8px;height:8px;border-radius:50%;background:var(--accent2);animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+    @keyframes slideDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    .hero h1{font-size:3.2rem;font-weight:800;line-height:1.15;margin-bottom:18px;animation:slideUp .8s ease-out .2s both}
+    .hero h1 .gradient-text{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    /* Typing cursor for hero subtitle */
+    .typing-cursor{display:inline-block;width:2px;height:1.1em;background:var(--accent);margin-left:4px;animation:blink 1s step-end infinite;vertical-align:text-bottom}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+    .hero p{color:var(--muted);font-size:1.1rem;max-width:520px;margin-bottom:28px;font-family:'Inter',sans-serif;line-height:1.7;animation:slideUp .8s ease-out .4s both}
+    .hero-btns{display:flex;gap:14px;flex-wrap:wrap;animation:slideUp .8s ease-out .6s both}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:12px;border:none;font-weight:600;font-size:.95rem;cursor:none;transition:all .3s;text-decoration:none;font-family:'Outfit',sans-serif;position:relative;overflow:hidden}
+    .btn::before{content:'';position:absolute;top:50%;left:50%;width:0;height:0;background:rgba(255,255,255,.15);border-radius:50%;transition:width .5s,height .5s;transform:translate(-50%,-50%)}
+    .btn:active::before{width:300px;height:300px}
+    .btn-primary{background:linear-gradient(135deg,var(--accent),#8B7FFF);color:#fff;box-shadow:0 4px 20px rgba(108,99,255,.25)}
+    .btn-primary:hover{transform:translateY(-3px);box-shadow:0 8px 35px rgba(108,99,255,.45)}
+    .btn-outline{background:transparent;border:1px solid rgba(108,99,255,.3);color:var(--text)}
+    .btn-outline:hover{border-color:var(--accent);background:rgba(108,99,255,.08);transform:translateY(-3px)}
+    .hero-stats{display:flex;gap:32px;margin-top:32px;animation:slideUp .8s ease-out .8s both}
+    .stat{text-align:left}
+    .stat-num{font-size:1.6rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .stat-label{font-size:.82rem;color:var(--muted);margin-top:2px}
+
+    /* Hero card — 3D tilt */
+    .hero-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:20px;padding:28px;backdrop-filter:blur(20px);box-shadow:var(--shadow);position:relative;overflow:hidden;transition:transform .15s ease-out,box-shadow .3s;transform-style:preserve-3d;animation:fadeIn .8s ease-out .5s both}
+    .hero-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent3))}
+    .hero-card::after{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,rgba(108,99,255,.04),transparent);pointer-events:none}
+    .hero-card .shine{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.03) 45%,rgba(255,255,255,.06) 50%,rgba(255,255,255,.03) 55%,transparent 60%);opacity:0;transition:opacity .3s}
+    .hero-card:hover .shine{opacity:1}
+    .hero-card-header{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+    .avatar{width:72px;height:72px;border-radius:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.3rem;color:#fff;box-shadow:0 0 24px rgba(108,99,255,.3);animation:avatarPulse 3s ease-in-out infinite}
+    @keyframes avatarPulse{0%,100%{box-shadow:0 0 24px rgba(108,99,255,.3)}50%{box-shadow:0 0 36px rgba(108,99,255,.5)}}
+    .hero-card-name{font-weight:700;font-size:1.1rem}
+    .hero-card-role{font-size:.88rem;color:var(--muted)}
+    .hero-card-loc{font-size:.82rem;color:var(--muted);display:flex;align-items:center;gap:4px;margin-top:4px}
+    .skills-grid{display:flex;gap:8px;flex-wrap:wrap}
+    .chip{padding:7px 14px;border-radius:10px;background:rgba(108,99,255,.1);border:1px solid rgba(108,99,255,.15);color:var(--accent);font-size:.82rem;font-weight:500;transition:all .3s;cursor:none}
+    .chip:hover{background:rgba(108,99,255,.25);transform:translateY(-2px) scale(1.05);box-shadow:0 4px 16px rgba(108,99,255,.2)}
+    .card-divider{height:1px;background:var(--glass-border);margin:18px 0}
+    .github-link{display:flex;align-items:center;gap:8px;color:var(--muted);text-decoration:none;font-size:.9rem;transition:all .25s;cursor:none}
+    .github-link:hover{color:var(--accent);transform:translateX(4px)}
+    .github-link svg{width:20px;height:20px;fill:currentColor;transition:transform .3s}
+    .github-link:hover svg{transform:rotate(360deg)}
+
+    /* SECTIONS */
+    .section{padding:80px 0}
+    .section-header{text-align:center;margin-bottom:48px}
+    .section-label{font-size:.82rem;text-transform:uppercase;letter-spacing:3px;color:var(--accent);font-weight:600;margin-bottom:10px}
+    .section-title{font-size:2rem;font-weight:700}
+
+    /* PROJECTS */
+    .projects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+    .project{background:var(--glass);border:1px solid var(--glass-border);border-radius:18px;padding:26px;backdrop-filter:blur(12px);transition:all .35s;position:relative;overflow:hidden;display:flex;flex-direction:column;cursor:none}
+    .project::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:2px;background:linear-gradient(90deg,transparent,var(--accent),var(--accent2),transparent);transition:left .6s}
+    .project:hover{transform:translateY(-8px);border-color:rgba(108,99,255,.3);box-shadow:0 20px 50px rgba(0,0,0,.3)}
+    .project:hover::after{left:100%}
+    .project .proj-glow{position:absolute;top:0;right:0;width:200px;height:200px;border-radius:50%;opacity:0;transition:opacity .4s;pointer-events:none}
+    .project:nth-child(1) .proj-glow{background:radial-gradient(circle,rgba(108,99,255,.08),transparent)}
+    .project:nth-child(2) .proj-glow{background:radial-gradient(circle,rgba(0,212,170,.08),transparent)}
+    .project:nth-child(3) .proj-glow{background:radial-gradient(circle,rgba(255,107,157,.08),transparent)}
+    .project:nth-child(4) .proj-glow{background:radial-gradient(circle,rgba(255,183,77,.08),transparent)}
+    .project:hover .proj-glow{opacity:1}
+    .proj-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:16px;transition:transform .3s}
+    .project:hover .proj-icon{transform:scale(1.15) rotate(5deg)}
+    .proj-icon-1{background:rgba(108,99,255,.15);color:var(--accent)}
+    .proj-icon-2{background:rgba(0,212,170,.15);color:var(--accent2)}
+    .proj-icon-3{background:rgba(255,107,157,.15);color:var(--accent3)}
+    .proj-icon-4{background:rgba(255,183,77,.15);color:#FFB74D}
+    .proj-type{font-size:.75rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);font-weight:600;margin-bottom:6px}
+    .proj-title{font-size:1.15rem;font-weight:700;margin-bottom:8px}
+    .proj-desc{color:var(--muted);font-size:.9rem;font-family:'Inter',sans-serif;margin-bottom:14px;line-height:1.6;flex:1}
+    .tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+    .tag{font-size:.76rem;padding:5px 10px;border-radius:8px;background:rgba(108,99,255,.08);color:var(--accent);border:1px solid rgba(108,99,255,.1);font-weight:500;transition:all .25s}
+    .tag:hover{background:rgba(108,99,255,.18);transform:translateY(-1px)}
+    .proj-links{display:flex;gap:10px;margin-top:auto}
+    .proj-links a{font-size:.85rem;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:6px;transition:all .25s;font-weight:500;cursor:none}
+    .proj-links a:hover{color:var(--accent);transform:translateX(4px)}
+
+    /* ABOUT */
+    .about-grid{display:grid;grid-template-columns:1fr 380px;gap:28px}
+    .about-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:18px;padding:28px;backdrop-filter:blur(12px);transition:border-color .3s,box-shadow .3s}
+    .about-card:hover{border-color:rgba(108,99,255,.25);box-shadow:0 12px 40px rgba(0,0,0,.2)}
+    .about-text{color:var(--muted);font-family:'Inter',sans-serif;line-height:1.8;margin-bottom:20px}
+    .about-list{list-style:none;margin-bottom:22px}
+    .about-list li{padding:8px 0;color:var(--muted);font-family:'Inter',sans-serif;display:flex;align-items:center;gap:10px;font-size:.95rem;transition:all .25s;cursor:none}
+    .about-list li::before{content:'→';color:var(--accent);font-weight:700;transition:transform .25s}
+    .about-list li:hover{color:var(--text);transform:translateX(6px)}
+    .about-list li:hover::before{transform:translateX(4px)}
+    .avail-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    .avail-tag{padding:6px 14px;border-radius:10px;font-size:.82rem;font-weight:600;background:rgba(0,212,170,.1);border:1px solid rgba(0,212,170,.15);color:var(--accent2);transition:all .3s}
+    .avail-tag:hover{background:rgba(0,212,170,.2);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,212,170,.15)}
+
+    /* CONTACT CARD */
+    .contact-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:18px;padding:28px;backdrop-filter:blur(12px);transition:border-color .3s}
+    .contact-card:hover{border-color:rgba(108,99,255,.25)}
+    .contact-card h3{font-size:1.2rem;font-weight:700;margin-bottom:20px;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .contact-item{display:flex;align-items:center;gap:14px;padding:14px;border-radius:12px;transition:all .3s;margin-bottom:8px;cursor:none}
+    .contact-item:hover{background:rgba(108,99,255,.06);transform:translateX(6px)}
+    .contact-icon{width:42px;height:42px;border-radius:12px;background:rgba(108,99,255,.1);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;transition:transform .3s}
+    .contact-item:hover .contact-icon{transform:scale(1.1) rotate(5deg)}
+    .contact-label{font-size:.8rem;color:var(--muted);margin-bottom:2px}
+    .contact-value{font-weight:500;font-size:.95rem}
+    .contact-value a{color:var(--text);text-decoration:none;transition:color .25s;cursor:none}
+    .contact-value a:hover{color:var(--accent)}
+
+    /* FOOTER */
+    footer{border-top:1px solid var(--glass-border);padding:32px 0;text-align:center;color:var(--muted);font-size:.88rem}
+    footer a{color:var(--accent);text-decoration:none;cursor:none}
+    footer a:hover{text-decoration:underline}
+
+    /* Scroll reveal */
+    .reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+    .reveal-left{opacity:0;transform:translateX(-40px);transition:opacity .7s ease,transform .7s ease}
+    .reveal-left.visible{opacity:1;transform:translateX(0)}
+    .reveal-right{opacity:0;transform:translateX(40px);transition:opacity .7s ease,transform .7s ease}
+    .reveal-right.visible{opacity:1;transform:translateX(0)}
+    .reveal-scale{opacity:0;transform:scale(.9);transition:opacity .7s ease,transform .7s ease}
+    .reveal-scale.visible{opacity:1;transform:scale(1)}
+
+    /* Magnetic button on hover */
+    .magnetic{transition:transform .2s ease-out}
+
+    /* Responsive */
+    @media(max-width:900px){
+      body{cursor:auto}
+      .cursor,.cursor-dot,.cursor-glow{display:none!important}
+      .hero-grid{grid-template-columns:1fr;text-align:center}
+      .hero p{margin-left:auto;margin-right:auto}
+      .hero-btns{justify-content:center}
+      .hero-stats{justify-content:center}
+      .hero h1{font-size:2.2rem}
+      .projects-grid{grid-template-columns:1fr}
+      .about-grid{grid-template-columns:1fr}
+      .nav-links{display:none}
+      .nav-links.open{display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:rgba(11,15,26,.95);backdrop-filter:blur(20px);padding:20px;gap:8px;border-bottom:1px solid var(--glass-border)}
+      .hamburger{display:block}
+      *{cursor:auto!important}
+    }
+    @media(max-width:500px){.hero h1{font-size:1.7rem}.section{padding:50px 0}.container{padding:0 16px}}
+  </style>
+</head>
+<body>
+  <!-- Live Particle Canvas -->
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- Custom Cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <div class="wrapper">
+    <!-- NAV -->
+    <nav id="navbar">
+      <div class="nav-inner">
+        <a href="#" class="nav-brand magnetic">
+          <div class="nav-logo">KS</div>
+          <span class="nav-name">S M Kishore</span>
+        </a>
+        <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Toggle menu">☰</button>
+        <div class="nav-links">
+          <a href="#work" class="magnetic">Work</a>
+          <a href="#about" class="magnetic">About</a>
+          <a href="#contact" class="nav-cta magnetic">Let's Talk</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div>
+            <div class="hero-badge"><span class="dot"></span> Available for new opportunities</div>
+            <h1>Crafting <span class="gradient-text">Interfaces</span> That Users Love</h1>
+            <p id="typed-text"></p>
+            <div class="hero-btns">
+              <a href="#work" class="btn btn-primary magnetic">⬡ View My Work</a>
+              <a href="#contact" class="btn btn-outline magnetic">✉ Contact Me</a>
+            </div>
+            <div class="hero-stats">
+              <div class="stat"><div class="stat-num" data-count="4">0+</div><div class="stat-label">Projects</div></div>
+              <div class="stat"><div class="stat-num">OSS</div><div class="stat-label">Contributor</div></div>
+              <div class="stat"><div class="stat-num">UI/UX</div><div class="stat-label">Specialist</div></div>
+            </div>
+          </div>
+
+          <div class="hero-card" id="tiltCard">
+            <div class="shine"></div>
+            <div class="hero-card-header">
+              <div class="avatar">KS</div>
+              <div>
+                <div class="hero-card-name">S M Kishore</div>
+                <div class="hero-card-role">UI / UX Designer · Frontend-friendly</div>
+                <div class="hero-card-loc">📍 India</div>
+              </div>
+            </div>
+            <div class="skills-grid">
+              <div class="chip magnetic">User Research</div>
+              <div class="chip magnetic">Wireframing</div>
+              <div class="chip magnetic">Figma</div>
+              <div class="chip magnetic">HTML & CSS</div>
+              <div class="chip magnetic">Prototyping</div>
+              <div class="chip magnetic">Adobe XD</div>
+            </div>
+            <div class="card-divider"></div>
+            <a href="https://github.com/tn56kid1417" target="_blank" rel="noopener" class="github-link">
+              <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+              github.com/tn56kid1417
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WORK -->
+    <section id="work" class="section">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-label">Portfolio</div>
+          <div class="section-title">Selected Projects</div>
+        </div>
+        <div class="projects-grid">
+          <article class="project reveal-left">
+            <div class="proj-glow"></div>
+            <div class="proj-icon proj-icon-1">🤖</div>
+            <div class="proj-type">Open Source</div>
+            <div class="proj-title">RagaAI-Catalyst</div>
+            <div class="proj-desc">Python SDK for Agent AI observability & monitoring — agent tracing, self-host dashboard. Contributed architecture diagrams, SDK usage docs, and API UX flow diagrams.</div>
+            <div class="tags"><span class="tag">Python</span><span class="tag">AI</span><span class="tag">Agent Tooling</span></div>
+            <div class="proj-links">
+              <a href="https://github.com/tn56kid1417/RagaAI-Catalyst" target="_blank" rel="noopener">→ GitHub</a>
+              <a href="#">→ Case Study</a>
+            </div>
+          </article>
+          <article class="project reveal-right">
+            <div class="proj-glow"></div>
+            <div class="proj-icon proj-icon-2">🎨</div>
+            <div class="proj-type">Frontend</div>
+            <div class="proj-title">Bootstrap — Live to Code</div>
+            <div class="proj-desc">Frontend-focused project: responsive components & live code examples. Created component docs and usage patterns to improve developer experience.</div>
+            <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">UX</span></div>
+            <div class="proj-links">
+              <a href="https://github.com/tn56kid1417/Bootstrap" target="_blank" rel="noopener">→ GitHub</a>
+              <a href="#">→ Prototype</a>
+            </div>
+          </article>
+          <article class="project reveal-left">
+            <div class="proj-glow"></div>
+            <div class="proj-icon proj-icon-3">🚗</div>
+            <div class="proj-type">Full-Stack</div>
+            <div class="proj-title">Java JDBC — Automobile Management</div>
+            <div class="proj-desc">Full-stack Java exercise focused on architecture and data flows. Improved usability for admin tasks and data entry forms with better UX patterns.</div>
+            <div class="tags"><span class="tag">Java</span><span class="tag">Architecture</span><span class="tag">Flows</span></div>
+            <div class="proj-links">
+              <a href="https://github.com/tn56kid1417/Java-JDBC-Advanced-Automobile-Management" target="_blank" rel="noopener">→ GitHub</a>
+              <a href="#">→ Screenshots</a>
+            </div>
+          </article>
+          <article class="project reveal-right">
+            <div class="proj-glow"></div>
+            <div class="proj-icon proj-icon-4">⚙️</div>
+            <div class="proj-type">DevOps</div>
+            <div class="proj-title">Sample / DevOps Demos</div>
+            <div class="proj-desc">Various sample projects & DevOps experiments — showcasing end-to-end thinking from design to deployment with CI/CD pipelines.</div>
+            <div class="tags"><span class="tag">DevOps</span><span class="tag">CI/CD</span></div>
+            <div class="proj-links">
+              <a href="https://github.com/tn56kid1417" target="_blank" rel="noopener">→ All Repos</a>
+              <a href="#">→ Add Case Study</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-label">About Me</div>
+          <div class="section-title">Designer Who Codes</div>
+        </div>
+        <div class="about-grid">
+          <div class="about-card reveal-left">
+            <p class="about-text">Hi — I'm <strong style="color:var(--text)">S M Kishore</strong>. I design clean, usable interfaces for web and product experiences. I combine user research, wireframing, and production-aware UI design so teams can ship faster with higher confidence.</p>
+            <ul class="about-list">
+              <li>Design tools: Figma, Adobe XD</li>
+              <li>Frontend: HTML, CSS, basic JS — production-ready assets</li>
+              <li>Open-source contributor — see GitHub for code & docs</li>
+              <li>Strong eye for detail, typography, and spacing</li>
+            </ul>
+            <div>
+              <strong style="font-size:.9rem">Available for:</strong>
+              <div class="avail-tags">
+                <span class="avail-tag magnetic">Contract</span>
+                <span class="avail-tag magnetic">Full-time</span>
+                <span class="avail-tag magnetic">Freelance</span>
+              </div>
+            </div>
+          </div>
+
+          <div id="contact" class="contact-card reveal-right">
+            <h3>Get In Touch</h3>
+            <div class="contact-item">
+              <div class="contact-icon">📧</div>
+              <div>
+                <div class="contact-label">Email</div>
+                <div class="contact-value"><a href="mailto:your.email@example.com">your.email@example.com</a></div>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon">💻</div>
+              <div>
+                <div class="contact-label">GitHub</div>
+                <div class="contact-value"><a href="https://github.com/tn56kid1417" target="_blank">github.com/tn56kid1417</a></div>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon">📍</div>
+              <div>
+                <div class="contact-label">Location</div>
+                <div class="contact-value">India</div>
+              </div>
+            </div>
+            <div style="margin-top:16px">
+              <button class="btn btn-primary magnetic" onclick="contactMe()" style="width:100%;justify-content:center">✉ Send Me a Message</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="container">
+        Designed & built with ♥ by <strong>S M Kishore</strong> · <a href="https://github.com/tn56kid1417" target="_blank">github.com/tn56kid1417</a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+  // ===================== LIVE PARTICLE BACKGROUND =====================
+  (function(){
+    const canvas=document.getElementById('particles-canvas');
+    const ctx=canvas.getContext('2d');
+    let w,h,particles=[],mouse={x:null,y:null,radius:150};
+
+    function resize(){w=canvas.width=window.innerWidth;h=canvas.height=window.innerHeight}
+    resize();
+    window.addEventListener('resize',resize);
+
+    window.addEventListener('mousemove',e=>{mouse.x=e.clientX;mouse.y=e.clientY});
+    window.addEventListener('mouseout',()=>{mouse.x=null;mouse.y=null});
+
+    class Particle{
+      constructor(){this.reset()}
+      reset(){
+        this.x=Math.random()*w;
+        this.y=Math.random()*h;
+        this.size=Math.random()*2+0.5;
+        this.speedX=(Math.random()-.5)*.6;
+        this.speedY=(Math.random()-.5)*.6;
+        this.opacity=Math.random()*.5+.1;
+        const colors=['108,99,255','0,212,170','255,107,157'];
+        this.color=colors[Math.floor(Math.random()*colors.length)];
+      }
+      update(){
+        this.x+=this.speedX;
+        this.y+=this.speedY;
+        if(this.x<0||this.x>w)this.speedX*=-1;
+        if(this.y<0||this.y>h)this.speedY*=-1;
+        // Mouse interaction — push particles away
+        if(mouse.x!==null){
+          const dx=this.x-mouse.x,dy=this.y-mouse.y;
+          const dist=Math.sqrt(dx*dx+dy*dy);
+          if(dist<mouse.radius){
+            const force=(mouse.radius-dist)/mouse.radius;
+            this.x+=dx/dist*force*3;
+            this.y+=dy/dist*force*3;
+          }
+        }
+      }
+      draw(){
+        ctx.beginPath();
+        ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
+        ctx.fillStyle=`rgba(${this.color},${this.opacity})`;
+        ctx.fill();
+      }
+    }
+
+    const count=Math.min(120,Math.floor(w*h/12000));
+    for(let i=0;i<count;i++)particles.push(new Particle());
+
+    function connectParticles(){
+      for(let a=0;a<particles.length;a++){
+        for(let b=a+1;b<particles.length;b++){
+          const dx=particles[a].x-particles[b].x;
+          const dy=particles[a].y-particles[b].y;
+          const dist=Math.sqrt(dx*dx+dy*dy);
+          if(dist<130){
+            ctx.strokeStyle=`rgba(108,99,255,${.12*(1-dist/130)})`;
+            ctx.lineWidth=.5;
+            ctx.beginPath();
+            ctx.moveTo(particles[a].x,particles[a].y);
+            ctx.lineTo(particles[b].x,particles[b].y);
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
+    // Draw mouse connections
+    function mouseLines(){
+      if(mouse.x===null)return;
+      for(let p of particles){
+        const dx=p.x-mouse.x,dy=p.y-mouse.y;
+        const dist=Math.sqrt(dx*dx+dy*dy);
+        if(dist<200){
+          ctx.strokeStyle=`rgba(0,212,170,${.2*(1-dist/200)})`;
+          ctx.lineWidth=.8;
+          ctx.beginPath();
+          ctx.moveTo(p.x,p.y);
+          ctx.lineTo(mouse.x,mouse.y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    function animate(){
+      ctx.clearRect(0,0,w,h);
+      particles.forEach(p=>{p.update();p.draw()});
+      connectParticles();
+      mouseLines();
+      requestAnimationFrame(animate);
+    }
+    animate();
+  })();
+
+  // ===================== CUSTOM CURSOR =====================
+  (function(){
+    const cursor=document.getElementById('cursor');
+    const dot=document.getElementById('cursorDot');
+    const glow=document.getElementById('cursorGlow');
+    let cx=0,cy=0,dx=0,dy=0;
+
+    document.addEventListener('mousemove',e=>{
+      dx=e.clientX;dy=e.clientY;
+      dot.style.left=dx+'px';dot.style.top=dy+'px';
+      glow.style.left=dx+'px';glow.style.top=dy+'px';
+    });
+
+    // Smooth cursor follow
+    function moveCursor(){
+      cx+=(dx-cx)*.12;cy+=(dy-cy)*.12;
+      cursor.style.left=cx+'px';cursor.style.top=cy+'px';
+      requestAnimationFrame(moveCursor);
+    }
+    moveCursor();
+
+    // Hover effect on interactive elements
+    const hovers=document.querySelectorAll('a,.btn,.chip,.tag,.avail-tag,.contact-item,.project,.nav-logo,.hamburger');
+    hovers.forEach(el=>{
+      el.addEventListener('mouseenter',()=>cursor.classList.add('hover'));
+      el.addEventListener('mouseleave',()=>cursor.classList.remove('hover'));
+    });
+  })();
+
+  // ===================== 3D TILT CARD =====================
+  (function(){
+    const card=document.getElementById('tiltCard');
+    if(!card)return;
+    card.addEventListener('mousemove',e=>{
+      const rect=card.getBoundingClientRect();
+      const x=e.clientX-rect.left;
+      const y=e.clientY-rect.top;
+      const cx=rect.width/2;
+      const cy=rect.height/2;
+      const rotateX=(y-cy)/15;
+      const rotateY=(cx-x)/15;
+      card.style.transform=`perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+      // Shine
+      const shine=card.querySelector('.shine');
+      if(shine)shine.style.background=`radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,.06), transparent 60%)`;
+    });
+    card.addEventListener('mouseleave',()=>{
+      card.style.transform='perspective(800px) rotateX(0) rotateY(0) scale(1)';
+    });
+  })();
+
+  // ===================== TYPING EFFECT =====================
+  (function(){
+    const el=document.getElementById('typed-text');
+    const text="I design & build user-centered web experiences — from deep research and wireframes to polished UI and interactive prototypes that ship with confidence.";
+    let i=0;
+    function type(){
+      if(i<=text.length){
+        el.innerHTML=text.substring(0,i)+'<span class="typing-cursor"></span>';
+        i++;
+        setTimeout(type,28);
+      }else{
+        // Remove cursor after typing is done
+        setTimeout(()=>{const c=el.querySelector('.typing-cursor');if(c)c.style.display='none';},2000);
+      }
+    }
+    setTimeout(type,1200);
+  })();
+
+  // ===================== MAGNETIC BUTTONS =====================
+  document.querySelectorAll('.magnetic').forEach(btn=>{
+    btn.addEventListener('mousemove',e=>{
+      const rect=btn.getBoundingClientRect();
+      const x=e.clientX-rect.left-rect.width/2;
+      const y=e.clientY-rect.top-rect.height/2;
+      btn.style.transform=`translate(${x*.15}px,${y*.15}px)`;
+    });
+    btn.addEventListener('mouseleave',()=>{btn.style.transform='translate(0,0)'});
+  });
+
+  // ===================== NAVBAR SCROLL =====================
+  window.addEventListener('scroll',()=>{
+    document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>30);
+  });
+
+  // ===================== SCROLL REVEAL =====================
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}
+    });
+  },{threshold:0.12});
+  document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-scale').forEach(el=>obs.observe(el));
+
+  // ===================== SMOOTH NAV =====================
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click',e=>{
+      e.preventDefault();
+      const t=document.querySelector(a.getAttribute('href'));
+      if(t)t.scrollIntoView({behavior:'smooth'});
+      document.querySelector('.nav-links').classList.remove('open');
+    });
+  });
+
+  // ===================== CONTACT =====================
+  function contactMe(){
+    window.location.href='mailto:your.email@example.com?subject=Design%20Opportunity%20-%20UI%2FUX%20Designer';
+  }
+  </script>
+</body>
+</html>
