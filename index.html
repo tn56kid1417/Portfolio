@@ -183,6 +183,17 @@
     /* Magnetic button on hover */
     .magnetic{transition:transform .2s ease-out}
 
+    /* Loading Screen */
+    .loading-screen{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:10000;opacity:1;transition:opacity 1.5s ease-out;pointer-events:all}
+    .loading-screen.hidden{opacity:0;pointer-events:none}
+    .loading-content{text-align:center}
+    .loading-name{font-size:2.5rem;font-weight:800;color:var(--text);margin-bottom:30px;animation:fadeIn .5s ease-out}
+    .loading-spinner{margin:30px 0}
+    .spinner{width:50px;height:50px;border:3px solid var(--glass-border);border-top:3px solid var(--accent);border-radius:50%;margin:0 auto;animation:spin 1s linear infinite}
+    @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+    .loading-text{color:var(--muted);font-size:.95rem;margin-top:20px;animation:fadeIn .5s ease-out .3s both}
+    .loading-percentage{font-size:1.8rem;font-weight:700;color:var(--accent);margin-top:25px;animation:fadeIn .5s ease-out .5s both}
+
     /* Responsive */
     @media(max-width:900px){
       body{cursor:auto}
@@ -203,6 +214,18 @@
   </style>
 </head>
 <body>
+  <!-- Loading Screen -->
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-content">
+      <h2 class="loading-name">S M Kishore</h2>
+      <div class="loading-spinner">
+        <div class="spinner"></div>
+      </div>
+      <p class="loading-text">Loading...</p>
+      <div class="loading-percentage"><span id="percentage">0</span>%</div>
+    </div>
+  </div>
+
   <!-- Live Particle Canvas -->
   <canvas id="particles-canvas"></canvas>
 
@@ -241,8 +264,7 @@
               <a href="#contact" class="btn btn-outline magnetic">✉ Contact Me</a>
             </div>
             <div class="hero-stats">
-              <div class="stat"><div class="stat-num" data-count="4">0+</div><div class="stat-label">Projects</div></div>
-              <div class="stat"><div class="stat-num">OSS</div><div class="stat-label">Contributor</div></div>
+              <div class="stat"><div class="stat-num">4+</div><div class="stat-label">Projects</div></div>
               <div class="stat"><div class="stat-num">UI/UX</div><div class="stat-label">Specialist</div></div>
             </div>
           </div>
@@ -258,12 +280,12 @@
               </div>
             </div>
             <div class="skills-grid">
-              <div class="chip magnetic">User Research</div>
-              <div class="chip magnetic">Wireframing</div>
+              <div class="chip magnetic">HTML</div>
+              <div class="chip magnetic">CSS</div>
               <div class="chip magnetic">Figma</div>
-              <div class="chip magnetic">HTML & CSS</div>
-              <div class="chip magnetic">Prototyping</div>
-              <div class="chip magnetic">Adobe XD</div>
+              <div class="chip magnetic">Adobe Photoshop</div>
+              <div class="chip magnetic">Unity</div>
+              <div class="chip magnetic">ReactJS</div>
             </div>
             <div class="card-divider"></div>
             <a href="https://github.com/tn56kid1417" target="_blank" rel="noopener" class="github-link">
@@ -285,50 +307,50 @@
         <div class="projects-grid">
           <article class="project reveal-left">
             <div class="proj-glow"></div>
-            <div class="proj-icon proj-icon-1">🤖</div>
-            <div class="proj-type">Open Source</div>
-            <div class="proj-title">RagaAI-Catalyst</div>
-            <div class="proj-desc">Python SDK for Agent AI observability & monitoring — agent tracing, self-host dashboard. Contributed architecture diagrams, SDK usage docs, and API UX flow diagrams.</div>
-            <div class="tags"><span class="tag">Python</span><span class="tag">AI</span><span class="tag">Agent Tooling</span></div>
+            <div class="proj-icon proj-icon-1">🏭</div>
+            <div class="proj-type">Full-Stack</div>
+            <div class="proj-title">Industrial-ERP</div>
+            <div class="proj-desc">All-in-one ERP solution for managing industrial workflows digitally. Integrating major business processes into a unified platform for better operational efficiency.</div>
+            <div class="tags"><span class="tag">JavaScript</span><span class="tag">ERP</span><span class="tag">Business</span></div>
             <div class="proj-links">
-              <a href="https://github.com/tn56kid1417/RagaAI-Catalyst" target="_blank" rel="noopener">→ GitHub</a>
-              <a href="#">→ Case Study</a>
+              <a href="https://github.com/tn56kid1417/Industrial-ERP" target="_blank" rel="noopener">→ GitHub</a>
+              <a href="#">→ Demo</a>
             </div>
           </article>
           <article class="project reveal-right">
             <div class="proj-glow"></div>
-            <div class="proj-icon proj-icon-2">🎨</div>
-            <div class="proj-type">Frontend</div>
-            <div class="proj-title">Bootstrap — Live to Code</div>
-            <div class="proj-desc">Frontend-focused project: responsive components & live code examples. Created component docs and usage patterns to improve developer experience.</div>
-            <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">UX</span></div>
-            <div class="proj-links">
-              <a href="https://github.com/tn56kid1417/Bootstrap" target="_blank" rel="noopener">→ GitHub</a>
-              <a href="#">→ Prototype</a>
-            </div>
-          </article>
-          <article class="project reveal-left">
-            <div class="proj-glow"></div>
-            <div class="proj-icon proj-icon-3">🚗</div>
+            <div class="proj-icon proj-icon-2">🚗</div>
             <div class="proj-type">Full-Stack</div>
             <div class="proj-title">Java JDBC — Automobile Management</div>
             <div class="proj-desc">Full-stack Java exercise focused on architecture and data flows. Improved usability for admin tasks and data entry forms with better UX patterns.</div>
-            <div class="tags"><span class="tag">Java</span><span class="tag">Architecture</span><span class="tag">Flows</span></div>
+            <div class="tags"><span class="tag">Java</span><span class="tag">JDBC</span><span class="tag">Database</span></div>
             <div class="proj-links">
               <a href="https://github.com/tn56kid1417/Java-JDBC-Advanced-Automobile-Management" target="_blank" rel="noopener">→ GitHub</a>
               <a href="#">→ Screenshots</a>
             </div>
           </article>
+          <article class="project reveal-left">
+            <div class="proj-glow"></div>
+            <div class="proj-icon proj-icon-3">💼</div>
+            <div class="proj-type">Portfolio</div>
+            <div class="proj-title">Portfolio Website</div>
+            <div class="proj-desc">Modern, responsive portfolio showcasing design work and development skills. Built with clean HTML, CSS, and interactive JavaScript for smooth user experience.</div>
+            <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span></div>
+            <div class="proj-links">
+              <a href="https://github.com/tn56kid1417/portfolio" target="_blank" rel="noopener">→ GitHub</a>
+              <a href="#">→ Live</a>
+            </div>
+          </article>
           <article class="project reveal-right">
             <div class="proj-glow"></div>
-            <div class="proj-icon proj-icon-4">⚙️</div>
-            <div class="proj-type">DevOps</div>
-            <div class="proj-title">Sample / DevOps Demos</div>
-            <div class="proj-desc">Various sample projects & DevOps experiments — showcasing end-to-end thinking from design to deployment with CI/CD pipelines.</div>
-            <div class="tags"><span class="tag">DevOps</span><span class="tag">CI/CD</span></div>
+            <div class="proj-icon proj-icon-4">✓</div>
+            <div class="proj-type">Task</div>
+            <div class="proj-title">TASK-1</div>
+            <div class="proj-desc">Development project showcasing problem-solving skills and technical implementation. A focused exercise in building efficient and well-structured solutions.</div>
+            <div class="tags"><span class="tag">Development</span><span class="tag">Code</span></div>
             <div class="proj-links">
-              <a href="https://github.com/tn56kid1417" target="_blank" rel="noopener">→ All Repos</a>
-              <a href="#">→ Add Case Study</a>
+              <a href="https://github.com/tn56kid1417/TASK-1" target="_blank" rel="noopener">→ GitHub</a>
+              <a href="#">→ Details</a>
             </div>
           </article>
         </div>
@@ -354,9 +376,9 @@
             <div>
               <strong style="font-size:.9rem">Available for:</strong>
               <div class="avail-tags">
-                <span class="avail-tag magnetic">Contract</span>
                 <span class="avail-tag magnetic">Full-time</span>
                 <span class="avail-tag magnetic">Freelance</span>
+                <span class="avail-tag magnetic">Remote</span>
               </div>
             </div>
           </div>
@@ -367,7 +389,7 @@
               <div class="contact-icon">📧</div>
               <div>
                 <div class="contact-label">Email</div>
-                <div class="contact-value"><a href="mailto:your.email@example.com">your.email@example.com</a></div>
+                <div class="contact-value"><a href="mailto:smkishore05@gmail.com">smkishore05@gmail.com</a></div>
               </div>
             </div>
             <div class="contact-item">
@@ -385,7 +407,7 @@
               </div>
             </div>
             <div style="margin-top:16px">
-              <button class="btn btn-primary magnetic" onclick="contactMe()" style="width:100%;justify-content:center">✉ Send Me a Message</button>
+              <a href="mailto:smkishore05@gmail.com?subject=Design%20Opportunity%20-%20UI%2FUX%20Designer" class="btn btn-primary magnetic" style="width:100%;justify-content:center;display:inline-flex">✉ Send Me a Message</a>
             </div>
           </div>
         </div>
@@ -401,6 +423,37 @@
   </div>
 
   <script>
+  // ===================== LOADING SCREEN =====================
+  (function(){
+    const percentageEl=document.getElementById('percentage');
+    const loadingScreen=document.getElementById('loading-screen');
+    let currentPercentage=0;
+    const targetDuration=3500;
+    const startTime=Date.now();
+
+    function updatePercentage(){
+      const elapsed=Date.now()-startTime;
+      const progress=Math.min(elapsed/targetDuration,1);
+      currentPercentage=Math.floor(progress*100);
+      percentageEl.textContent=currentPercentage;
+
+      if(progress<1){
+        requestAnimationFrame(updatePercentage);
+      }else{
+        percentageEl.textContent='100';
+        setTimeout(()=>{
+          loadingScreen.classList.add('hidden');
+        },300);
+      }
+    }
+
+    updatePercentage();
+
+    window.addEventListener('load',()=>{
+      percentageEl.textContent='100';
+    });
+  })();
+
   // ===================== LIVE PARTICLE BACKGROUND =====================
   (function(){
     const canvas=document.getElementById('particles-canvas');
@@ -602,9 +655,7 @@
   });
 
   // ===================== CONTACT =====================
-  function contactMe(){
-    window.location.href='mailto:your.email@example.com?subject=Design%20Opportunity%20-%20UI%2FUX%20Designer';
-  }
+  // Direct mailto link - no form needed
   </script>
 </body>
 </html>
